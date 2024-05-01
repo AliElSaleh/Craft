@@ -10,39 +10,24 @@ ExcludedSourceDirectories deps/glfw/deps
 IncludedSourceFiles glew.c lodepng.c noise.c sqlite3.c tinycthread.c
 
 Includes [
-	deps/glew/include 
-	deps/glfw 
-	deps/glfw/include 
-	deps/glfw/deps 
-	deps/lodepng 
-	deps/noise 
-	deps/sqlite 
-	deps/tinycthread 
-	@(CURL_PATH)/include
+    deps/glew/include 
+    deps/glfw 
+    deps/glfw/include 
+    deps/glfw/deps 
+    deps/lodepng 
+    deps/noise 
+    deps/sqlite 
+    deps/tinycthread 
+    @(CURL_PATH)/include
 ]
 
-Libraries [
-	libcurl 
-	glfw3dll 
-	sqlite3 
-	user32 
-	opengl32 
-	kernel32 
-	ws2_32
-]
+Libraries curl glfw
+LibraryDirectories deps/glfw/Build/Release @(CURL_PATH)/lib
 
-LibraryDirectories [
-	@(CURL_PATH)/lib 
-	@(GLFW_PATH)/lib-static-ucrt 
-	@(SQLITE3_PATH)/lib
-]
+if _platform == windows Libraries kernel32 opengl32 user32 ws2_32
+if _platform == windows Defines _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS SQLITE_OS_WINRT
+if _platform == apple LinkerFlags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
 
-Defines [
-	_CRT_SECURE_NO_WARNINGS 
-	_GLFW_USE_OPENGL 
-	_GLFW_WIN32 
-	CURL_STATICLIB 
-	_WIN32 
-	_WINSOCK_DEPRECATED_NO_WARNINGS 
-	SQLITE_OS_WINRT
-]
+Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB
+
+Depends glfw deps/glfw | release
