@@ -28,6 +28,8 @@ if _platform == windows {
 
     if egl IncludedSourceFiles egl_*.c else IncludedSourceFiles wgl_*.c
     if egl Defines _GLFW_EGL else Defines _GLFW_WGL
+
+    if shared Libraries kernel32 user32 opengl32 shell32 gdi32
 }
 
 if _platform == linux {
@@ -56,14 +58,21 @@ if _platform == apple {
 }
 
 if compiler == cl {
-    if !release SharedCompilerFlags /EHa /MDd /Z7
-    if release  SharedCompilerFlags /EHa /MD
-    SharedLinkerFlags /DEBUG
+    if !release SharedCompilerFlags /EHa /Z7
+    if release  SharedCompilerFlags /EHa
+
+    if !release if shared  SharedCompilerFlags /MDd
+    if release  if shared  SharedCompilerFlags /MD
+    if !release if !shared SharedCompilerFlags /MTd
+    if release  if !shared SharedCompilerFlags /MT
+
+    if !release SharedLinkerFlags /DEBUG
 }
 
 if compiler == gcc {
     if !release SharedCompilerFlags -O0 -g
     if release  SharedCompilerFlags -O3
+    if _platform == apple SharedCompilerFlags -fno-common
     SharedLinkerFlags
 }
 
