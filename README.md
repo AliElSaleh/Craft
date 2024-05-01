@@ -28,15 +28,14 @@ See below to run from source.
 
 #### Linux (Ubuntu)
 
-    sudo apt-get install cmake libglew-dev xorg-dev libcurl4-openssl-dev
+    sudo apt-get install libglew-dev xorg-dev libcurl4-openssl-dev
     sudo apt-get build-dep glfw
 
 #### Windows
 
-Download and install [CMake](http://www.cmake.org/cmake/resources/software.html)
-and [MinGW](http://www.mingw.org/). Add `C:\MinGW\bin` to your `PATH`.
+Download and install [MinGW](http://www.mingw.org/). Add `C:\MinGW\bin` to your `PATH`.
 
-Download and install [cURL](http://curl.haxx.se/download.html). Once installed, add a new environment variable called CURL_PATH, that points to the directory where you installed curl to
+Download and install [cURL](http://curl.haxx.se/download.html). Once installed, add a new environment variable called `CURL_PATH`, that points to the directory where you installed curl to
 
 ### Compile and Run
 
