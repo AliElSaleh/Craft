@@ -1,9 +1,11 @@
+if cl Compiler cl else Compiler gcc
+
 Assembly CraftGame
 RunAssembly
 
 BuildDirectory .
 
-CompilerFlags -std=c99 -O3
+CompilerFlags /O2
 
 IncludedSourceDirectories src
 ExcludedSourceDirectories deps/glfw/deps
@@ -21,13 +23,15 @@ Includes [
     @(CURL_PATH)/include
 ]
 
-Libraries curl glfw
-LibraryDirectories deps/glfw/Build/Release @(CURL_PATH)/lib
+Libraries glfw
+LibraryDirectories deps/glfw/Build/Release
 
-if _platform == windows Libraries kernel32 opengl32 user32 ws2_32
+if _platform != windows Libraries curl
+if _platform == windows Libraries kernel32 opengl32 user32 shell32 gdi32 ws2_32 libcurl ; LibraryDirectories @(CURL_PATH)/lib
 if _platform == windows Defines _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS SQLITE_OS_WINRT
-if _platform == apple LinkerFlags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
+if _platform == apple   LinkerFlags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
 
 Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB
 
-Depends glfw deps/glfw | release
+Depends glfw deps/glfw | release %cl
+
