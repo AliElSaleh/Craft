@@ -44,13 +44,7 @@ the installation:
 Download and install [CMake](http://www.cmake.org/cmake/resources/software.html)
 and [MinGW](http://www.mingw.org/). Add `C:\MinGW\bin` to your `PATH`.
 
-Download and install [cURL](http://curl.haxx.se/download.html) so that
-CURL/lib and CURL/include are in your Program Files directory.
-
-Use the following commands in place of the ones described in the next section.
-
-    cmake -G "MinGW Makefiles"
-    mingw32-make
+Download and install [cURL](http://curl.haxx.se/download.html). Once installed, add a new environment variable called CURL_PATH, that points to the directory where you installed curl to
 
 ### Compile and Run
 
@@ -60,6 +54,8 @@ terminal.
     git clone https://github.com/fogleman/Craft.git
     cd Craft
     riftbuild
+
+Fuck CMake [Craft.build](craft.build)
 
 ### Multiplayer
 
