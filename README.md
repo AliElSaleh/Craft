@@ -59,9 +59,7 @@ terminal.
 
     git clone https://github.com/fogleman/Craft.git
     cd Craft
-    cmake .
-    make
-    ./craft
+    riftbuild
 
 ### Multiplayer
 
