@@ -25,10 +25,10 @@ Includes [
 ]
 
 Libraries glfw
-LibraryDirectories deps/glfw/Build/Release deps/curl/lib
+LibraryDirectories deps/glfw/Build/Release
 
 if _platform != windows Libraries curl
-if _platform == windows Libraries kernel32 opengl32 user32 shell32 gdi32 ws2_32 libcurl
+if _platform == windows Libraries kernel32 opengl32 user32 shell32 gdi32 ws2_32 libcurl ; LibraryDirectories @(CURL_PATH)/lib
 if _platform == windows Defines _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS SQLITE_OS_WINRT
 if _platform == apple   LinkerFlags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
 
