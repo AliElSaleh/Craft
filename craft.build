@@ -1,0 +1,48 @@
+Assembly CraftGame
+RunAssembly
+
+BuildDirectory .
+
+CompilerFlags -std=c99 -O3
+
+IncludedSourceDirectories src
+ExcludedSourceDirectories deps/glfw/deps
+IncludedSourceFiles glew.c lodepng.c noise.c sqlite3.c tinycthread.c
+
+Includes [
+	deps/glew/include 
+	deps/glfw 
+	deps/glfw/include 
+	deps/glfw/deps 
+	deps/lodepng 
+	deps/noise 
+	deps/sqlite 
+	deps/tinycthread 
+	@(CURL_PATH)/include
+]
+
+Libraries [
+	libcurl 
+	glfw3dll 
+	sqlite3 
+	user32 
+	opengl32 
+	kernel32 
+	ws2_32
+]
+
+LibraryDirectories [
+	@(CURL_PATH)/lib 
+	@(GLFW_PATH)/lib-static-ucrt 
+	@(SQLITE3_PATH)/lib
+]
+
+Defines [
+	_CRT_SECURE_NO_WARNINGS 
+	_GLFW_USE_OPENGL 
+	_GLFW_WIN32 
+	CURL_STATICLIB 
+	_WIN32 
+	_WINSOCK_DEPRECATED_NO_WARNINGS 
+	SQLITE_OS_WINRT
+]
