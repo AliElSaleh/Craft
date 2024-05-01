@@ -5,7 +5,8 @@ RunAssembly
 
 BuildDirectory .
 
-CompilerFlags /O2
+if compiler == cl  CompilerFlags /O2
+if compiler == gcc CompilerFlags -std=c99 -O3
 
 IncludedSourceDirectories src
 ExcludedSourceDirectories deps/glfw/deps
