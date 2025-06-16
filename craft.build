@@ -1,18 +1,23 @@
 if cl Compiler cl else Compiler gcc
 
 Assembly CraftGame
-RunAssembly
+.run
 
-BuildDirectory .
+if compiler == cl  Compiler.Flags /O2
+if compiler == gcc Compiler.Flags -std=c99 -O3
 
-if compiler == cl  CompilerFlags /O2
-if compiler == gcc CompilerFlags -std=c99 -O3
+SourceFiles
+[
+    src/*.c
+    deps/glew/src/glew.c
+    deps/lodepng/lodepng.c
+    deps/noise/noise.c
+    deps/sqlite/sqlite3.c
+    deps/tinycthread/tinycthread.c
+]
 
-IncludedSourceDirectories src
-ExcludedSourceDirectories deps/glfw/deps
-IncludedSourceFiles glew.c lodepng.c noise.c sqlite3.c tinycthread.c
-
-Includes [
+Includes
+[
     deps/glew/include 
     deps/glfw 
     deps/glfw/include 
@@ -25,14 +30,17 @@ Includes [
 ]
 
 Libraries          glfw
-LibraryDirectories deps/glfw/Build/Release
+Library.Paths      deps/glfw/Build/Release
 
 if !windows Libraries   curl
 if windows  Libraries   kernel32 opengl32 user32 shell32 gdi32 ws2_32 libcurl ; LibraryDirectories @(CURL_PATH)/lib
 if windows  Defines     _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS SQLITE_OS_WINRT
 if linux    Libraries   GL X11 Xrandr Xcursor Xinerama Xi m
-if apple    LinkerFlags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
+if apple    Linker.Flags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
 
 Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB
 
 Depends glfw deps/glfw | release %cl
+
+postbuild.copy textures/ $BuildDirectory
+postbuild.copy shaders/ $BuildDirectory
