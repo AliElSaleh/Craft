@@ -36,7 +36,7 @@ if linux {
     "Using X11 for window creation"
     Defines _GLFW_X11
 
-    ISourceFiles x11_*.c linux_*.c posix_*.c xkb_*.c
+    SourceFiles x11_*.c linux_*.c posix_*.c xkb_*.c
     
     if egl SourceFiles egl_*.c else SourceFiles glx_*.c
     if egl Defines _GLFW_EGL else Defines _GLFW_GLX _GLFW_HAS_GLXGETPROCADDRESS
