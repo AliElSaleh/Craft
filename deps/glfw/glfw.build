@@ -68,6 +68,8 @@ if linux
 
     SourceFiles x11_*.c linux_*.c posix_*.c xkb_*.c
 
+    Libraries.Public:!shared X11 Xrandr Xcursor Xinerama Xi m GL
+
     if egl
     {
         SourceFiles egl_*.c
@@ -93,7 +95,7 @@ if apple
     if menubar Defines _GLFW_USE_MENUBAR
     if chdir   Defines _GLFW_USE_CHDIR
 
-    if shared Linker.Flags 
+    if !shared Linker.Flags.Public
     [
         -ObjC
         -framework Cocoa
@@ -143,12 +145,6 @@ if clang|gcc
 # TODO _GLFW_HAS_GLXGETPROCADDRESSARB
 # TODO _GLFW_HAS_GLXGETPROCADDRESSEXT
 # TODO _GLFW_HAS_DLOPEN
-
-# libxxf86vm-dev
-# libxi-dev 
-# libxrandr-dev
-# libxcursor-dev
-# libxinerama-dev
 
 option.client_library(opengl glesv1 glesv2)
 option.release

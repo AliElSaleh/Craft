@@ -37,8 +37,6 @@ if windows
 }
 
 if !windows Libraries   curl
-if linux    Libraries   GL X11 Xrandr Xcursor Xinerama Xi m
-if apple    Linker.Flags -ObjC -framework Foundation -framework QuartzCore -framework AppKit -framework IOKit -framework OpenGL
 
 Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB
 
