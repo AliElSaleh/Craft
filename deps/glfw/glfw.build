@@ -33,7 +33,7 @@ if client_library == opengl Defines _GLFW_USE_OPENGL
 if client_library == glesv1 Defines _GLFW_USE_GLESV1
 if client_library == glesv2 Defines _GLFW_USE_GLESV2
 
-Defines _CRT_SECURE_NO_WARNINGS _GLFW_VERSION_FULL=\"$Version\"
+Defines _CRT_SECURE_NO_WARNINGS _GLFW_VERSION_FULL="$Version"
 
 if windows
 {
@@ -86,7 +86,7 @@ if apple
     "Using Cocoa for window creation"
     Defines _GLFW_COCOA _GLFW_NSGL
 
-    SourceFiles *.m cocoa_*.c nsgl_*.c posix_*.c
+    SourceFiles *.m cocoa_*.c nsgl_*.c mach_time.c posix_tls.c
 
     Defines GL_SILENCE_DEPRECATION
  
