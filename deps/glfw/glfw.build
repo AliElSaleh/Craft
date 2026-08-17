@@ -1,5 +1,5 @@
 Assembly     glfw
-Version      3.0.1
+Version      3.1.2
 Type:shared  shared_library
 Type:!shared static_library
 
@@ -21,64 +21,62 @@ else
 
 SourceFiles
 [
-    context.c init.c input.c monitor.c window.c vulkan.c platform.c
-    osmesa_context.c
-    null_init.c null_monitor.c null_window.c null_joystick.c
+    context.c init.c input.c monitor.c window.c
 ]
 
-Includes        . include deps
-Includes.Public include
+Compiler.Includes        . include deps
+Compiler.Includes.Export include
 
-if client_library == opengl Defines _GLFW_USE_OPENGL
-if client_library == glesv1 Defines _GLFW_USE_GLESV1
-if client_library == glesv2 Defines _GLFW_USE_GLESV2
+if client_library == opengl Compiler.Defines _GLFW_USE_OPENGL
+if client_library == glesv1 Compiler.Defines _GLFW_USE_GLESV1
+if client_library == glesv2 Compiler.Defines _GLFW_USE_GLESV2
 
-Defines _CRT_SECURE_NO_WARNINGS _GLFW_VERSION_FULL="$Version"
+Compiler.Defines _CRT_SECURE_NO_WARNINGS _GLFW_VERSION_FULL="$Version"
 
 if windows
 {
     "Using Win32 for window creation"
-    Defines _GLFW_WIN32
-    if shared         Defines _GLFW_BUILD_DLL
-    if no_dload_winmm Defines _GLFW_NO_DLOAD_WINMM
- 
+    Compiler.Defines _GLFW_WIN32
+    if shared         Compiler.Defines _GLFW_BUILD_DLL
+    if no_dload_winmm Compiler.Defines _GLFW_NO_DLOAD_WINMM
+
     SourceFiles win32_*.c winmm_*.c
 
     if egl
     {
         SourceFiles egl_*.c
-        Defines _GLFW_EGL
+        Compiler.Defines _GLFW_EGL
     }
     else
     {
         SourceFiles wgl_*.c
-        Defines _GLFW_WGL
+        Compiler.Defines _GLFW_WGL
     }
 
     Win32Libraries kernel32 user32 opengl32 shell32 gdi32
 
     Libraries:shared $Win32Libraries
-    Libraries.Public:!shared $Win32Libraries
+    Libraries.Export:!shared $Win32Libraries
 }
 
 if linux
 {
     "Using X11 for window creation"
-    Defines _GLFW_X11
+    Compiler.Defines _GLFW_X11
 
     SourceFiles x11_*.c linux_*.c posix_*.c xkb_*.c
 
-    Libraries.Public:!shared X11 Xrandr Xcursor Xinerama Xi m GL
+    Libraries.Export:!shared X11 Xrandr Xcursor Xinerama Xi m GL
 
     if egl
     {
         SourceFiles egl_*.c
-        Defines _GLFW_EGL
+        Compiler.Defines _GLFW_EGL
     }
     else
     {
         SourceFiles glx_*.c
-        Defines _GLFW_GLX _GLFW_HAS_GLXGETPROCADDRESS
+        Compiler.Defines _GLFW_GLX _GLFW_HAS_GLXGETPROCADDRESS
     }
 }
 
@@ -86,25 +84,26 @@ if apple
 {
     "Using NSGL"
     "Using Cocoa for window creation"
-    Defines _GLFW_COCOA _GLFW_NSGL
+    Compiler.Defines _GLFW_COCOA _GLFW_NSGL
 
     SourceFiles *.m cocoa_*.c nsgl_*.c mach_time.c posix_tls.c
 
-    Defines GL_SILENCE_DEPRECATION
- 
-    if menubar Defines _GLFW_USE_MENUBAR
-    if chdir   Defines _GLFW_USE_CHDIR
+    Compiler.Defines GL_SILENCE_DEPRECATION
 
-    if !shared Linker.Flags.Public
+    if menubar Compiler.Defines _GLFW_USE_MENUBAR
+    if chdir   Compiler.Defines _GLFW_USE_CHDIR
+
+    if !shared Apple.Frameworks.Export
     [
-        -ObjC
-        -framework Cocoa
-        -framework Foundation
-        -framework QuartzCore
-        -framework AppKit
-        -framework IOKit
-        -framework OpenGL
+        Cocoa
+        Foundation
+        QuartzCore
+        AppKit
+        IOKit
+        OpenGL
     ]
+
+    if !shared Linker.Flags.Export -ObjC
 
     if clang
     {
@@ -146,9 +145,12 @@ if clang|gcc
 # TODO _GLFW_HAS_GLXGETPROCADDRESSEXT
 # TODO _GLFW_HAS_DLOPEN
 
+option.compiler(gcc msvc)
 option.client_library(opengl glesv1 glesv2)
 option.release
+option.shared
 option.egl
+option.no_dload_winmm
 
 if apple
 {

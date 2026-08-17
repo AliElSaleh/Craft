@@ -3,12 +3,26 @@ option.compiler(gcc msvc)
 Assembly CraftGame
 .run
 
+if compiler == gcc  Compiler gcc
+if compiler == msvc Compiler cl
+
 if cl  Compiler.Flags /O2
 if gcc Compiler.Flags -std=c99 -O3
 
 SourceFiles
 [
-    src/*.c
+    src/auth.c
+    src/client.c
+    src/cube.c
+    src/db.c
+    src/item.c
+    src/main.c
+    src/map.c
+    src/matrix.c
+    src/ring.c
+    src/sign.c
+    src/util.c
+    src/world.c
     deps/glew/src/glew.c
     deps/lodepng/lodepng.c
     deps/noise/noise.c
@@ -16,16 +30,16 @@ SourceFiles
     deps/tinycthread/tinycthread.c
 ]
 
-Includes
+Compiler.Includes
 [
-    deps/glew/include 
-    deps/glfw 
-    deps/glfw/include 
-    deps/glfw/deps 
-    deps/lodepng 
-    deps/noise 
-    deps/sqlite 
-    deps/tinycthread 
+    deps/glew/include
+    deps/glfw
+    deps/glfw/include
+    deps/glfw/deps
+    deps/lodepng
+    deps/noise
+    deps/sqlite
+    deps/tinycthread
     deps/curl/include
 ]
 
@@ -33,12 +47,12 @@ if windows
 {
     Library.Paths deps/curl/lib
     Libraries     kernel32 opengl32 user32 shell32 gdi32 ws2_32 libcurl
-    Defines       _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS SQLITE_OS_WINRT
+    Compiler.Defines _WIN32 _WINSOCK_DEPRECATED_NO_WARNINGS
 }
 
-if !windows Libraries   curl
+if !windows Libraries   curl dl
 
-Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB
+Compiler.Defines _CRT_SECURE_NO_WARNINGS CURL_STATICLIB GLEW_STATIC
 
 Depends deps/glfw | release compiler=%compiler
 
